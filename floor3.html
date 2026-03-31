@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Floor 03 — Office Layout</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+    /* Shipthis Brand: DarkSlateBlue #203A7B | TomatoRed #DD3621 */
+    --bg:#0a0e1a;--s:#101828;--bd:#1c2d50;--bd2:#203A7B;
+    --t:#e8eaf2;--t2:#8a90a8;--t3:#505878;--acc:#DD3621;--acc2:rgba(221,54,33,.1);
+    --cab:#1C65A7;--cab-f:#d0e0f8;--call:#DD3621;--call-f:#fce0d8;
+    --conf:#203A7B;--conf-f:#c8d5f0;--cafe:#1C65A7;--cafe-f:#d0e0f5;
+    --wc:#8890a0;--wc-f:#e0e4ea;--srv:#203A7B;--srv-f:#d0d8f0;
+    --desk:#1C65A7;--desk-f:#d8e8f8;--stand:#DD3621;--stand-f:#fce0d8;
+    --collab:#203A7B;--collab-f:#c8d5f0;--store:#1C65A7;--store-f:#d0e0f5;
+    --fl:#f0f2f8;--wall:#10182a;--pil:#203A7B;--glass:#4BAED9;
+}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--t);min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.02'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:24px 20px}
+header{display:flex;align-items:baseline;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--bd);flex-wrap:wrap}
+header h1{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;background:linear-gradient(135deg,#e8eaf2,#DD3621);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--t2);text-transform:uppercase}
+.badge{padding:3px 9px;background:var(--acc2);border:1px solid rgba(184,146,58,.2);border-radius:4px;color:var(--acc);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:1.2px}
+.cnt{display:flex;gap:18px;align-items:flex-start}
+.pp{flex:1;background:var(--s);border:1px solid var(--bd);border-radius:12px;padding:16px;animation:fu .4s ease}
+.pp svg{width:100%;max-width:540px;height:auto;display:block;margin:0 auto}
+.sb{width:268px;display:flex;flex-direction:column;gap:11px;flex-shrink:0;position:sticky;top:20px;max-height:95vh;overflow-y:auto}
+.cd{background:var(--s);border:1px solid var(--bd);border-radius:10px;padding:13px;animation:sr .4s ease backwards}
+.cd:nth-child(1){animation-delay:.06s}.cd:nth-child(2){animation-delay:.12s}.cd:nth-child(3){animation-delay:.18s}.cd:nth-child(4){animation-delay:.24s}
+.cd h3{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:2px;color:var(--t3);margin-bottom:9px}
+.li{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:11.5px}
+.sw{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+.sr2{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--bd);font-size:11.5px}
+.sr2:last-child{border-bottom:none}.sl{color:var(--t2)}.sv{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px}
+#dc{display:none}.dn{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;margin-bottom:2px}
+.dt{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--acc);margin-bottom:7px;letter-spacing:.4px}
+.di{font-size:11.5px;line-height:1.5;color:var(--t2)}.di strong{color:var(--t);font-weight:600}.dp{color:var(--t3);font-size:11.5px;font-style:italic}
+.oc{margin-top:8px}.ob{height:5px;background:var(--bd);border-radius:3px;overflow:hidden;margin-top:3px}
+.of{height:100%;background:linear-gradient(90deg,var(--acc),#d4a84a);border-radius:3px}.ol{display:flex;justify-content:space-between;font-size:9.5px;color:var(--t2);margin-top:2px}
+.rg{cursor:pointer}.rg:hover>.rb{filter:brightness(.91);stroke-width:2}
+.tip{position:fixed;background:rgba(10,10,16,.92);color:var(--t);padding:4px 10px;border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:10px;pointer-events:none;opacity:0;transition:opacity .1s;z-index:999;border:1px solid rgba(184,146,58,.18);white-space:nowrap}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes sr{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+@media(max-width:960px){.cnt{flex-direction:column}.sb{width:100%;position:static;max-height:none;flex-direction:row;flex-wrap:wrap}.cd{flex:1;min-width:200px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+    <h1>Floor 03</h1>
+    <span class="tag">~3,300 sq ft &middot; L-shaped floor</span>
+    <span class="badge">40 SEATED + 9 STANDING</span>
+</header>
+<div class="cnt">
+<div class="pp">
+<svg viewBox="0 0 470 830" xmlns="http://www.w3.org/2000/svg">
+<defs>
+    <pattern id="gr" width="10" height="10" patternUnits="userSpaceOnUse"><line x1="10" y1="0" x2="10" y2="10" stroke="#ddd8ce" stroke-width=".18"/><line x1="0" y1="10" x2="10" y2="10" stroke="#ddd8ce" stroke-width=".18"/></pattern>
+    <g id="pod"><rect width="22" height="9" rx="1" fill="var(--desk-f)" stroke="var(--desk)" stroke-width=".5"/><circle cx="11" cy="-3.5" r="2.8" fill="var(--desk)" opacity=".1"/><rect x="26" width="22" height="9" rx="1" fill="var(--desk-f)" stroke="var(--desk)" stroke-width=".5"/><circle cx="37" cy="-3.5" r="2.8" fill="var(--desk)" opacity=".1"/><rect y="14" width="22" height="9" rx="1" fill="var(--desk-f)" stroke="var(--desk)" stroke-width=".5"/><circle cx="11" cy="27" r="2.8" fill="var(--desk)" opacity=".1"/><rect x="26" y="14" width="22" height="9" rx="1" fill="var(--desk-f)" stroke="var(--desk)" stroke-width=".5"/><circle cx="37" cy="27" r="2.8" fill="var(--desk)" opacity=".1"/></g>
+    <linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--glass)" stop-opacity=".1"/><stop offset="1" stop-color="var(--glass)" stop-opacity=".03"/></linearGradient>
+    <clipPath id="fc"><path d="M50,50L414,50L414,750L190,750L190,680L50,680Z"/></clipPath>
+</defs>
+
+<!-- Dimensions -->
+<text x="232" y="38" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="6" fill="var(--t3)">13 m</text>
+<line x1="50" y1="42" x2="414" y2="42" stroke="var(--t3)" stroke-width=".3"/>
+<line x1="50" y1="38" x2="50" y2="46" stroke="var(--t3)" stroke-width=".3"/>
+<line x1="414" y1="38" x2="414" y2="46" stroke="var(--t3)" stroke-width=".3"/>
+
+<!-- L-shaped floor fill -->
+<path d="M50,50L414,50L414,750L190,750L190,680L50,680Z" fill="var(--fl)"/>
+<path d="M50,50L414,50L414,750L190,750L190,680L50,680Z" fill="url(#gr)"/>
+<!-- Glass glow at entry extension south -->
+<rect x="190" y="722" width="224" height="28" fill="url(#gg)" clip-path="url(#fc)"/>
+
+<!-- Ceiling beams (main office y:50-610) -->
+<g stroke="#d8d2c8" stroke-width=".35" opacity=".4" clip-path="url(#fc)">
+    <line x1="50" y1="80" x2="414" y2="80"/><line x1="50" y1="195" x2="414" y2="195"/>
+    <line x1="50" y1="320" x2="414" y2="320"/><line x1="50" y1="440" x2="414" y2="440"/>
+    <line x1="50" y1="545" x2="414" y2="545"/>
+</g>
+
+<!-- Windows -->
+<g>
+    <rect x="50" y="142" width="3" height="20" fill="var(--glass)" opacity=".18" rx="1"/>
+    <rect x="50" y="280" width="3" height="20" fill="var(--glass)" opacity=".18" rx="1"/>
+    <rect x="50" y="420" width="3" height="20" fill="var(--glass)" opacity=".18" rx="1"/>
+    <rect x="411" y="120" width="3" height="20" fill="var(--glass)" opacity=".18" rx="1"/>
+    <rect x="411" y="232" width="3" height="20" fill="var(--glass)" opacity=".18" rx="1"/>
+    <rect x="411" y="345" width="3" height="20" fill="var(--glass)" opacity=".18" rx="1"/>
+    <rect x="411" y="458" width="3" height="20" fill="var(--glass)" opacity=".18" rx="1"/>
+    <rect x="411" y="558" width="3" height="20" fill="var(--glass)" opacity=".18" rx="1"/>
+</g>
+
+<!-- ===== NORTH WALL: Collab + Small Rooms ===== -->
+<g class="rg" data-room="collab">
+    <rect class="rb" x="102" y="54" width="168" height="60" rx="3" fill="var(--collab-f)" opacity=".4" stroke="var(--collab)" stroke-width=".6" stroke-dasharray="5,3"/>
+    <rect x="106" y="54" width="2" height="60" fill="var(--collab)" opacity=".3" rx="1"/>
+    <text x="186" y="78" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="6" font-weight="700" fill="var(--wall)" opacity=".55">COLLAB ZONE</text>
+    <text x="186" y="90" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--collab)" opacity=".7">whiteboard &middot; lounge</text>
+    <rect x="130" y="96" width="36" height="8" rx="3" fill="var(--collab)" opacity=".12"/>
+    <rect x="182" y="96" width="36" height="8" rx="3" fill="var(--collab)" opacity=".12"/>
+</g>
+<g class="rg" data-room="booth">
+    <rect class="rb" x="54" y="54" width="42" height="42" rx="2" fill="var(--call-f)" stroke="var(--call)" stroke-width="1.2"/>
+    <text x="75" y="73" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="5.5" font-weight="700" fill="var(--wall)">BOOTH</text>
+    <text x="75" y="86" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="3.5" fill="var(--call)">1p call</text>
+</g>
+<g class="rg" data-room="focus">
+    <rect class="rb" x="276" y="54" width="48" height="42" rx="2" fill="var(--call-f)" stroke="var(--call)" stroke-width="1.2"/>
+    <text x="300" y="73" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="5.5" font-weight="700" fill="var(--wall)">FOCUS</text>
+    <text x="300" y="86" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="3.5" fill="var(--call)">1-2p</text>
+</g>
+<g class="rg" data-room="server">
+    <rect class="rb" x="330" y="54" width="40" height="42" rx="2" fill="var(--srv-f)" stroke="var(--srv)" stroke-width="1.2"/>
+    <rect x="336" y="64" width="10" height="14" rx="1" fill="var(--srv)" opacity=".15"/>
+    <text x="350" y="64" font-family="'JetBrains Mono',monospace" font-size="4.5" font-weight="700" fill="var(--wall)">SRV</text>
+    <text x="350" y="86" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="3.5" fill="var(--srv)">prayer</text>
+</g>
+
+<!-- ===== CXO CABINS in pillar bays ===== -->
+<g class="rg" data-room="ceo">
+    <rect class="rb" x="52" y="102" width="74" height="86" rx="2" fill="var(--cab-f)" stroke="var(--cab)" stroke-width="1.2"/>
+    <rect x="56" y="106" width="20" height="8" rx="1" fill="var(--cab)" opacity=".2"/><rect x="56" y="114" width="8" height="12" rx="1" fill="var(--cab)" opacity=".2"/>
+    <text x="89" y="152" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">CEO</text>
+    <text x="89" y="164" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--cab)">W bay 1 &#9740;</text>
+</g>
+<g class="rg" data-room="cbo">
+    <rect class="rb" x="52" y="216" width="74" height="96" rx="2" fill="var(--cab-f)" stroke="var(--cab)" stroke-width="1.2"/>
+    <rect x="56" y="220" width="20" height="8" rx="1" fill="var(--cab)" opacity=".2"/><rect x="56" y="228" width="8" height="12" rx="1" fill="var(--cab)" opacity=".2"/>
+    <text x="89" y="274" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">CBO</text>
+    <text x="89" y="286" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--cab)">W bay 2 &#9740;</text>
+</g>
+<!-- E Bay 1: HUDDLE -->
+<g class="rg" data-room="huddle">
+    <rect class="rb" x="340" y="88" width="72" height="96" rx="2" fill="var(--call-f)" stroke="var(--call)" stroke-width="1.2"/>
+    <rect x="356" y="122" width="40" height="16" rx="3" fill="var(--call)" opacity=".08" stroke="var(--call)" stroke-width=".3"/>
+    <circle cx="366" cy="118" r="2.5" fill="var(--call)" opacity=".1"/><circle cx="386" cy="118" r="2.5" fill="var(--call)" opacity=".1"/>
+    <circle cx="366" cy="142" r="2.5" fill="var(--call)" opacity=".1"/><circle cx="386" cy="142" r="2.5" fill="var(--call)" opacity=".1"/>
+    <text x="376" y="112" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="6.5" font-weight="700" fill="var(--wall)">HUDDLE</text>
+    <text x="376" y="170" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--call)">2-3p &middot; E1 &#9740;</text>
+</g>
+<g class="rg" data-room="cfo">
+    <rect class="rb" x="340" y="198" width="72" height="96" rx="2" fill="var(--cab-f)" stroke="var(--cab)" stroke-width="1.2"/>
+    <rect x="379" y="202" width="20" height="8" rx="1" fill="var(--cab)" opacity=".2"/><rect x="391" y="210" width="8" height="12" rx="1" fill="var(--cab)" opacity=".2"/>
+    <text x="376" y="258" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">CFO</text>
+    <text x="376" y="270" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--cab)">CFO &middot; E2 &#9740;</text>
+</g>
+
+<!-- ===== STANDING DESK BARS ===== -->
+<g class="rg" data-room="standing">
+    <rect class="rb" x="52" y="380" width="14" height="100" rx="1" fill="var(--stand-f)" stroke="var(--stand)" stroke-width=".7"/>
+    <text x="59" y="434" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="3.5" fill="var(--stand)" transform="rotate(-90,59,434)">standing 3 spots</text>
+</g>
+<!-- SYNC ROOM — East bay 3 (extra meeting room) -->
+<g class="rg" data-room="sync">
+    <rect class="rb" x="340" y="306" width="72" height="82" rx="2" fill="var(--call-f)" stroke="var(--call)" stroke-width="1.2"/>
+    <rect x="356" y="332" width="38" height="14" rx="3" fill="var(--call)" opacity=".08" stroke="var(--call)" stroke-width=".3"/>
+    <circle cx="366" cy="328" r="2.5" fill="var(--call)" opacity=".1"/><circle cx="386" cy="328" r="2.5" fill="var(--call)" opacity=".1"/>
+    <circle cx="366" cy="350" r="2.5" fill="var(--call)" opacity=".1"/><circle cx="386" cy="350" r="2.5" fill="var(--call)" opacity=".1"/>
+    <text x="376" y="322" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="6" font-weight="700" fill="var(--wall)">SYNC</text>
+    <text x="376" y="376" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--call)">3-4p &middot; E3 &#9740;</text>
+</g>
+<g class="rg" data-room="standing">
+    <rect class="rb" x="400" y="500" width="12" height="70" rx="1" fill="var(--stand-f)" stroke="var(--stand)" stroke-width=".7"/>
+    <text x="406" y="538" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="3.5" fill="var(--stand)" transform="rotate(-90,406,538)">standing 3</text>
+</g>
+
+<!-- ===== STORAGE / CUPBOARDS at pillar gaps ===== -->
+<g class="rg" data-room="storage" opacity=".5">
+    <!-- Built-in cupboards in 1ft gap between pillars and wall -->
+    <rect x="52" y="500" width="10" height="16" rx="1" fill="var(--store-f)" stroke="var(--store)" stroke-width=".5"/>
+    <rect x="402" y="396" width="10" height="16" rx="1" fill="var(--store-f)" stroke="var(--store)" stroke-width=".5"/>
+    <rect x="402" y="578" width="10" height="16" rx="1" fill="var(--store-f)" stroke="var(--store)" stroke-width=".5"/>
+    <rect x="52" y="78" width="10" height="16" rx="1" fill="var(--store-f)" stroke="var(--store)" stroke-width=".5"/>
+    <rect x="402" y="64" width="10" height="16" rx="1" fill="var(--store-f)" stroke="var(--store)" stroke-width=".5"/>
+    <rect x="402" y="170" width="10" height="16" rx="1" fill="var(--store-f)" stroke="var(--store)" stroke-width=".5"/>
+</g>
+
+<!-- E Bay 4: CTO -->
+<g class="rg" data-room="cto">
+    <rect class="rb" x="340" y="404" width="72" height="82" rx="2" fill="var(--cab-f)" stroke="var(--cab)" stroke-width="1.2"/>
+    <rect x="379" y="408" width="20" height="8" rx="1" fill="var(--cab)" opacity=".2"/><rect x="391" y="416" width="8" height="12" rx="1" fill="var(--cab)" opacity=".2"/>
+    <text x="376" y="452" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">CTO</text>
+    <text x="376" y="474" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--cab)">CTO &middot; E4 &#9740;</text>
+</g>
+
+<!-- ===== WORKSPACE ===== -->
+<g class="rg" data-room="ws">
+    <rect class="rb" x="132" y="102" width="202" height="416" rx="3" fill="#faf6ec" opacity=".2"/>
+    <use href="#pod" x="148" y="118"/><use href="#pod" x="258" y="118"/>
+    <use href="#pod" x="148" y="202"/><use href="#pod" x="258" y="202"/>
+    <use href="#pod" x="148" y="298"/><use href="#pod" x="258" y="298"/>
+    <use href="#pod" x="148" y="386"/><use href="#pod" x="258" y="386"/>
+    <use href="#pod" x="148" y="476"/><use href="#pod" x="258" y="476"/>
+    <text x="232" y="260" text-anchor="middle" font-family="'Playfair Display',serif" font-size="7" font-weight="700" fill="var(--wall)" opacity=".06" letter-spacing="3">WORKSPACE</text>
+    <text x="232" y="270" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4.5" fill="var(--acc)" opacity=".35">40 desks &middot; 10 pods</text>
+</g>
+
+<!-- ===== PANTRY + WC (existing, SW extension) ===== -->
+<g class="rg" data-room="pantry">
+    <rect class="rb" x="52" y="614" width="64" height="60" rx="2" fill="var(--cafe-f)" stroke="var(--cafe)" stroke-width="1.2"/>
+    <rect x="56" y="620" width="8" height="36" rx="1" fill="var(--cafe)" opacity=".2"/>
+    <text x="84" y="642" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="6" font-weight="700" fill="var(--wall)">PANTRY</text>
+    <text x="84" y="654" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="#5a8a60">existing</text>
+</g>
+<g class="rg" data-room="wc">
+    <rect class="rb" x="122" y="614" width="64" height="60" rx="2" fill="var(--wc-f)" stroke="var(--wc)" stroke-width="1.2"/>
+    <line x1="148" y1="620" x2="148" y2="650" stroke="var(--wc)" stroke-width=".4" opacity=".5"/>
+    <text x="154" y="642" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="6.5" font-weight="700" fill="var(--wall)">WC</text>
+    <text x="154" y="654" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--wc)">existing</text>
+</g>
+
+<!-- ===== CONFERENCE — Entry extension glass corner ===== -->
+<g class="rg" data-room="conf">
+    <rect class="rb" x="264" y="632" width="146" height="112" rx="2" fill="var(--conf-f)" stroke="var(--conf)" stroke-width="1.2"/>
+    <rect x="290" y="660" width="94" height="38" rx="12" fill="var(--conf)" opacity=".07" stroke="var(--conf)" stroke-width=".3"/>
+    <circle cx="306" cy="656" r="3" fill="var(--conf)" opacity=".1"/><circle cx="326" cy="656" r="3" fill="var(--conf)" opacity=".1"/>
+    <circle cx="346" cy="656" r="3" fill="var(--conf)" opacity=".1"/><circle cx="366" cy="656" r="3" fill="var(--conf)" opacity=".1"/>
+    <circle cx="306" cy="702" r="3" fill="var(--conf)" opacity=".1"/><circle cx="326" cy="702" r="3" fill="var(--conf)" opacity=".1"/>
+    <circle cx="346" cy="702" r="3" fill="var(--conf)" opacity=".1"/><circle cx="366" cy="702" r="3" fill="var(--conf)" opacity=".1"/>
+    <circle cx="285" cy="679" r="3" fill="var(--conf)" opacity=".1"/><circle cx="389" cy="679" r="3" fill="var(--conf)" opacity=".1"/>
+    <text x="337" y="648" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7" font-weight="700" fill="var(--wall)">CONFERENCE</text>
+    <text x="337" y="728" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="#5a9e96">~250 sq ft &middot; glass corner</text>
+</g>
+
+<!-- ===== PILLARS ===== -->
+<g fill="var(--pil)">
+    <!-- West 4 -->
+    <rect x="58" y="78" width="10" height="16" rx="1"/>
+    <rect x="58" y="196" width="10" height="16" rx="1"/>
+    <rect x="58" y="338" width="10" height="16" rx="1"/>
+    <rect x="58" y="488" width="10" height="16" rx="1"/>
+    <!-- East 6 -->
+    <rect x="396" y="64" width="10" height="16" rx="1"/>
+    <rect x="396" y="172" width="10" height="16" rx="1"/>
+    <rect x="396" y="290" width="10" height="16" rx="1"/>
+    <rect x="396" y="396" width="10" height="16" rx="1"/>
+    <rect x="396" y="490" width="10" height="16" rx="1"/>
+    <rect x="396" y="580" width="10" height="16" rx="1"/>
+</g>
+
+<!-- ===== WALLS (L-shape) ===== -->
+<g fill="none" stroke="var(--wall)" stroke-width="2.5" stroke-linejoin="miter">
+    <!-- Main outline except south of entry extension (glass) -->
+    <path d="M50,50 L414,50 L414,610"/>
+    <line x1="414" y1="610" x2="414" y2="750"/>
+    <path d="M50,50 L50,680"/>
+    <line x1="50" y1="680" x2="190" y2="680"/>
+    <line x1="190" y1="680" x2="190" y2="750"/>
+    <!-- Internal wall: main office south edge (between office and extensions) -->
+    <line x1="50" y1="610" x2="190" y2="610" stroke-width="1.5" opacity=".5"/>
+</g>
+<!-- Glass facade (south of entry extension) -->
+<line x1="190" y1="750" x2="254" y2="750" stroke="var(--glass)" stroke-width="2.5" stroke-dasharray="8,4" opacity=".5"/>
+<line x1="288" y1="750" x2="414" y2="750" stroke="var(--glass)" stroke-width="2.5" stroke-dasharray="8,4" opacity=".5"/>
+<!-- Door gap highlight -->
+<line x1="254" y1="750" x2="288" y2="750" stroke="var(--acc)" stroke-width="2" opacity=".3"/>
+
+<!-- Door arc -->
+<path d="M 270 750 A 16 16 0 0 1 270 718" stroke="var(--wall)" stroke-width=".7" fill="none" opacity=".35"/>
+<line x1="270" y1="750" x2="270" y2="718" stroke="var(--wall)" stroke-width=".6" opacity=".3"/>
+
+<!-- Entry label -->
+<text x="271" y="766" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="6" font-weight="600" fill="var(--acc)" opacity=".7">ENTRY</text>
+<text x="350" y="766" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="5" fill="var(--glass)" opacity=".5" font-style="italic">glass facade</text>
+<text x="210" y="730" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--t3)" opacity=".4">corridor</text>
+
+<!-- Corridor in entry extension -->
+<rect x="192" y="614" width="66" height="130" fill="#ede8de" opacity=".25" rx="2"/>
+
+<!-- Zone labels -->
+<text x="424" y="100" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--t3)" opacity=".4" letter-spacing="1.5" transform="rotate(90,424,100)">QUIET</text>
+<text x="424" y="530" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--t3)" opacity=".4" letter-spacing="1.5" transform="rotate(90,424,530)">ACTIVE</text>
+
+<!-- Compass -->
+<g transform="translate(445,82)">
+    <circle r="14" fill="none" stroke="var(--bd2)" stroke-width=".4"/>
+    <line x1="0" y1="-3" x2="0" y2="-11" stroke="var(--acc)" stroke-width=".8"/>
+    <polygon points="0,-13 -2,-9 2,-9" fill="var(--acc)"/>
+    <text x="0" y="-18" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="6" font-weight="700" fill="var(--acc)">N</text>
+    <text x="0" y="20" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4.5" fill="var(--t3)">S</text>
+</g>
+
+<!-- L-shape annotation -->
+<text x="120" y="700" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--t3)" opacity=".35">lift/stairs outside ←</text>
+</svg>
+</div>
+
+<aside class="sb">
+<div class="cd">
+    <h3>Legend</h3>
+    <div class="li"><div class="sw" style="background:var(--cab-f);border:1.5px solid var(--cab)"></div>CXO Cabins (pillar bays)</div>
+    <div class="li"><div class="sw" style="background:var(--call-f);border:1.5px solid var(--call)"></div>Call Rooms (distributed)</div>
+    <div class="li"><div class="sw" style="background:var(--conf-f);border:1.5px solid var(--conf)"></div>Conference (glass corner)</div>
+    <div class="li"><div class="sw" style="background:var(--cafe-f);border:1.5px solid var(--cafe)"></div>Pantry (existing)</div>
+    <div class="li"><div class="sw" style="background:var(--wc-f);border:1.5px solid var(--wc)"></div>WC (existing)</div>
+    <div class="li"><div class="sw" style="background:var(--srv-f);border:1.5px solid var(--srv)"></div>Server / Prayer</div>
+    <div class="li"><div class="sw" style="background:var(--stand-f);border:1.5px solid var(--stand)"></div>Standing Desk Bars</div>
+    <div class="li"><div class="sw" style="background:var(--store-f);border:1.5px solid var(--store)"></div>Built-in Storage (at pillars)</div>
+    <div class="li"><div class="sw" style="background:var(--desk-f);border:1.5px solid var(--desk)"></div>Desk Pods (&times;4)</div>
+    <div class="li"><div class="sw" style="background:var(--collab-f);border:1px dashed var(--collab)"></div>Collab / Whiteboard</div>
+</div>
+<div class="cd">
+    <h3>Capacity</h3>
+    <div class="sr2"><span class="sl">Seated Desks</span><span class="sv">40</span></div>
+    <div class="sr2"><span class="sl">Standing Spots</span><span class="sv">+6</span></div>
+    <div class="sr2"><span class="sl">Total Capacity</span><span class="sv">46</span></div>
+    <div class="oc">
+        <div class="sr2" style="border:none;padding-bottom:2px"><span class="sl">Current Team</span><span class="sv">28 / 46</span></div>
+        <div class="ob"><div class="of" style="width:61%"></div></div>
+        <div class="ol"><span>Room to grow</span><span>61%</span></div>
+    </div>
+</div>
+<div class="cd">
+    <h3>Pillar Bay Uses</h3>
+    <div class="sr2"><span class="sl">W1</span><span class="sv">CEO Cabin &#9740;</span></div>
+    <div class="sr2"><span class="sl">W2</span><span class="sv">CBO Cabin &#9740;</span></div>
+    <div class="sr2"><span class="sl">W3</span><span class="sv">Standing Bar (3)</span></div>
+    <div class="sr2"><span class="sl">E1</span><span class="sv">Huddle (2-3p)</span></div>
+    <div class="sr2"><span class="sl">E2</span><span class="sv">CFO Cabin &#9740;</span></div>
+    <div class="sr2"><span class="sl">E3</span><span class="sv">Sync (3-4p)</span></div>
+    <div class="sr2"><span class="sl">E4</span><span class="sv">CTO Cabin &#9740;</span></div>
+    <div class="sr2"><span class="sl">E5</span><span class="sv">Standing Bar (3)</span></div>
+    <div class="sr2"><span class="sl">Gaps</span><span class="sv">Built-in cupboards</span></div>
+</div>
+<div class="cd">
+    <h3>Room Details</h3>
+    <p class="dp" id="dp">Hover over a room</p>
+    <div id="dc">
+        <div class="dn" id="dn"></div>
+        <div class="dt" id="dt"></div>
+        <div class="di" id="di"></div>
+    </div>
+</div>
+</aside>
+</div>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+const D={
+ceo:{n:'CEO Cabin',t:'W Bay 1 \u00b7 ~100 sq ft',i:'<strong>Pillar bay cabin.</strong> Pillars serve as walls. Glass front facing team. <strong>Window with natural light.</strong> Leaders are visible + accessible, not isolated behind a wall.'},
+cfo:{n:'CFO Cabin',t:'E Bay 2 \u00b7 ~94 sq ft',i:'<strong>Pillar bay cabin.</strong> East wall. Window. Glass front. Adjacent to CTO above. Pillars = walls.'},
+cto:{n:'CTO Cabin',t:'E Bay 4 \u00b7 ~80 sq ft',i:'<strong>Pillar bay cabin.</strong> East wall, mid-south. Window. Glass front facing engineering desks. Between Sync and Standing bar \u2014 close to the action.'},
+cbo:{n:'CBO Cabin',t:'W Bay 2 \u00b7 ~100 sq ft',i:'<strong>Pillar bay cabin.</strong> West wall. Window. Glass front. Adjacent to CEO above. Pillars = walls.'},
+booth:{n:'Phone Booth',t:'Call Room \u00b7 ~30 sq ft',i:'<strong>NW corner</strong> of north wall. No window needed for a call pod. Soundproofed. Quick solo client calls.'},
+focus:{n:'Focus Room',t:'Call Room \u00b7 ~34 sq ft',i:'<strong>North wall</strong> center-east. 1-2 person private meetings. No window needed. Table + 2 chairs.'},
+sync:{n:'Sync Room',t:'E Bay 3 \u00b7 ~80 sq ft',i:'<strong>Capacity:</strong> 3\u20134 persons<br><strong>Position:</strong> East wall, pillar bay 3. Window. Small meeting table + 4 chairs. Quick team syncs, sprint planning, client calls.'},
+huddle:{n:'Huddle Room',t:'E Bay 1 \u00b7 ~94 sq ft',i:'<strong>East wall, bay 1 (north end).</strong> 2-3 person calls. Display + table + chairs. Window. Quiet zone \u2014 ideal for focused client calls.'},
+conf:{n:'Conference Room',t:'Glass Corner \u00b7 ~250 sq ft',i:'<strong>Entry extension SE corner.</strong> Glass facade = premium natural light. 10 seats. Clients walk in and go <strong>straight here</strong> without crossing workspace. Oval table.'},
+pantry:{n:'Pantry',t:'Existing \u00b7 SW extension',i:'Coffee machine, counter, fridge. <strong>Existing room.</strong> Adjacent to WC. Near lift/stairs for 4th floor lunch access.'},
+wc:{n:'Washrooms',t:'Existing \u00b7 2 stalls',i:'<strong>Existing structure</strong> behind lift shaft. Faces the back wall. Adjacent to pantry. Gender-neutral stalls.'},
+server:{n:'Server / Prayer',t:'NE corner \u00b7 ~26 sq ft',i:'<strong>North wall.</strong> Small server rack + 1-person prayer space. Quiet location. No window needed. Dual-purpose room.'},
+standing:{n:'Standing Desk Bar',t:'Window-facing \u00b7 3 spots each',i:'<strong>Window-facing counter</strong> built into pillar bay recess. Natural light. Pillar dividers. <strong>9 total standing positions</strong> across 3 bays. Great for quick tasks or posture breaks.'},
+storage:{n:'Built-in Storage',t:'Cupboards at pillar gaps',i:'<strong>The 1ft gap between each pillar and the wall</strong> is perfect for built-in cupboards. Coats, personal lockers, file storage. Uses dead space \u2014 zero floor area impact. ~6 cupboard units across all pillars.'},
+ws:{n:'Open Workspace',t:'~1,400 sq ft \u00b7 40 desks',i:'<strong>10 pods \u00d7 4 desks</strong> in 2 columns \u00d7 5 rows. CXO glass cabins visible on both sides. Quiet zone (north) near collab area, active zone (south) near entry. Center corridor.'},
+collab:{n:'Collaboration Zone',t:'North wall \u00b7 ~150 sq ft',i:'<strong>Full-wall whiteboard</strong> on the windowless north wall (perfect surface). Lounge sofas. Brainstorm + standup area. Between Booth and Focus rooms.'}
+};
+const tip=document.getElementById('tip'),dp=document.getElementById('dp'),dc=document.getElementById('dc'),dn=document.getElementById('dn'),dt=document.getElementById('dt'),di=document.getElementById('di');
+document.querySelectorAll('.rg').forEach(el=>{
+    const d=D[el.dataset.room];if(!d)return;
+    el.addEventListener('mouseenter',()=>{dp.style.display='none';dc.style.display='block';dn.textContent=d.n;dt.textContent=d.t;di.innerHTML=d.i});
+    el.addEventListener('mousemove',e=>{tip.textContent=d.n;tip.style.opacity='1';tip.style.left=(e.clientX+12)+'px';tip.style.top=(e.clientY-20)+'px'});
+    el.addEventListener('mouseleave',()=>{dp.style.display='block';dc.style.display='none';tip.style.opacity='0'});
+});
+</script>
+</body>
+</html>

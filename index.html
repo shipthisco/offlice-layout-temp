@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Office Layout — All Designs</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--s:#101828;--bd:#1c2d50;--t:#e8eaf2;--t2:#8a90a8;--t3:#505878;--acc:#DD3621;--acc2:rgba(221,54,33,.1)}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--t);min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.02'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:48px 24px}
+header{text-align:center;margin-bottom:48px}
+header h1{font-family:'Playfair Display',serif;font-weight:800;font-size:32px;background:linear-gradient(135deg,#e8eaf2,#DD3621);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+header p{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t2);letter-spacing:1.5px;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{background:var(--s);border:1px solid var(--bd);border-radius:12px;padding:20px;text-decoration:none;color:var(--t);transition:all .2s ease;display:flex;flex-direction:column;gap:10px}
+.card:hover{border-color:rgba(184,146,58,.35);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.card.hero{grid-column:1/-1;flex-direction:row;align-items:center;gap:20px;background:linear-gradient(135deg,var(--s),rgba(184,146,58,.05))}
+.card.hero .info{flex:1}
+.tag{display:inline-block;padding:3px 8px;background:var(--acc2);border:1px solid rgba(184,146,58,.2);border-radius:4px;color:var(--acc);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:1px;margin-bottom:4px}
+.tag.green{background:rgba(100,180,100,.1);border-color:rgba(100,180,100,.2);color:#8ac48a}
+.tag.blue{background:rgba(90,140,200,.1);border-color:rgba(90,140,200,.2);color:#8ab4d8}
+.tag.purple{background:rgba(160,120,200,.1);border-color:rgba(160,120,200,.2);color:#b8a0d8}
+h2{font-family:'Playfair Display',serif;font-weight:700;font-size:18px}
+.desc{font-size:12px;color:var(--t2);line-height:1.6}
+.meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);margin-top:auto;padding-top:8px;border-top:1px solid var(--bd)}
+.pros,.cons{font-size:11px;line-height:1.5;padding-left:14px}
+.pros{color:#8ac48a}.cons{color:#c48a8a}
+.pros::before{content:'';display:inline-block;width:6px;height:6px;background:#8ac48a;border-radius:1px;margin-left:-14px;margin-right:6px;vertical-align:middle}
+.cons::before{content:'';display:inline-block;width:6px;height:6px;background:#c48a8a;border-radius:1px;margin-left:-14px;margin-right:6px;vertical-align:middle}
+.pc{display:flex;flex-direction:column;gap:3px;margin-top:6px;font-family:'JetBrains Mono',monospace}
+.floor-badge{font-family:'JetBrains Mono',monospace;font-size:36px;font-weight:700;color:var(--acc);opacity:.15;flex-shrink:0;width:80px;text-align:center}
+.divider{grid-column:1/-1;border:none;border-top:1px solid var(--bd);margin:8px 0}
+.section-label{grid-column:1/-1;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--t3);text-transform:uppercase;padding:4px 0}
+@media(max-width:640px){.grid{grid-template-columns:1fr}.card.hero{flex-direction:column}.floor-badge{width:auto}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+    <h1>Office Layout</h1>
+    <p>4th Floor &middot; Commercial Complex &middot; Bangalore</p>
+</header>
+
+<div class="grid">
+
+    <!-- 3rd Floor reference -->
+    <div class="section-label">Reference</div>
+    <a href="floor3.html" class="card hero">
+        <div class="floor-badge">03</div>
+        <div class="info">
+            <span class="tag">REFERENCE</span>
+            <h2>3rd Floor — Original Design</h2>
+            <div class="desc">The original office layout from REQUIREMENTS.md. 40 seated + 9 standing. Full spec with all rooms.</div>
+            <div class="meta">floor3.html &middot; 3D version: 3d.html</div>
+        </div>
+    </a>
+
+    <hr class="divider">
+    <div class="section-label">4th Floor — Main Designs</div>
+
+    <!-- Brand Edition -->
+    <a href="floor4-brand.html" class="card hero">
+        <div class="floor-badge" style="color:#e07030">04</div>
+        <div class="info">
+            <span class="tag" style="background:rgba(26,86,176,.15);border-color:rgba(26,86,176,.3);color:#3070cc">BRAND EDITION</span>
+            <h2>4F — Blue + Orange Brand</h2>
+            <div class="desc">Full brand guideline applied. Bold blue ceilings/zones, orange accent furniture, curved LED lights, biophilic greenery, blue carpet zones. Matches the UI designer's mood board.</div>
+            <div class="pc">
+                <div class="pros">Matches brand identity perfectly</div>
+                <div class="pros">Recruitment tours will love this</div>
+                <div class="cons">Custom furniture colors = longer lead time</div>
+            </div>
+            <div class="meta">floor4-brand.html &middot; Zoned workspace + brand palette</div>
+        </div>
+    </a>
+
+    <!-- Floor 4 main -->
+    <a href="floor4.html" class="card">
+        <span class="tag green">NEUTRAL</span>
+        <h2>4F — Zoned Layout</h2>
+        <div class="desc">Focus + Team + Active zones. Mixed desk types (pods, pairs, solo). Breakout area fills dead space. CXOs alternated with meeting rooms.</div>
+        <div class="pc">
+            <div class="pros">Best of all worlds — quiet focus AND collaboration</div>
+            <div class="pros">People pick zone based on task, not assigned seat</div>
+            <div class="pros">Breakout fills dead space, max capacity (64)</div>
+            <div class="cons">More furniture types = higher cost</div>
+            <div class="cons">Zone labels may feel corporate</div>
+        </div>
+        <div class="meta">48 desks + 8 standing + 8 breakout</div>
+    </a>
+
+    <!-- Creative -->
+    <a href="floor4-creative.html" class="card">
+        <span class="tag purple">CREATIVE</span>
+        <h2>4F — Organic Layout</h2>
+        <div class="desc">No straight lines. Every cluster angled differently. Curved circulation. Plants between pods. Modern coworking vibe.</div>
+        <div class="pc">
+            <div class="pros">Feels unique, fun, startup energy</div>
+            <div class="pros">Breaks monotony, great for recruitment tours</div>
+            <div class="pros">Natural sightlines, no "cubicle farm" feel</div>
+            <div class="cons">Harder to run cables/power to angled desks</div>
+            <div class="cons">Less space-efficient than grid</div>
+            <div class="cons">Cleaning/maintenance harder with angles</div>
+        </div>
+        <div class="meta">40 desks + 8 standing + 8 breakout</div>
+    </a>
+
+    <hr class="divider">
+    <div class="section-label">4th Floor — Workspace Variations</div>
+
+    <!-- Variation A -->
+    <a href="floor4-a.html" class="card">
+        <span class="tag blue">VARIANT A</span>
+        <h2>4F — Staggered Mix</h2>
+        <div class="desc">Rows offset left/right by 15px. Mix of 4-seat pods and 2-seat pairs at edges. Organic sightlines, breaks the grid monotony.</div>
+        <div class="pc">
+            <div class="pros">Subtle offset — looks organic, still practical</div>
+            <div class="pros">Pairs at edges = quiet corners for introverts</div>
+            <div class="cons">Lower capacity (36 desks)</div>
+            <div class="cons">Older room arrangement (pre-reorganization)</div>
+        </div>
+        <div class="meta">36 desks + 3 standing</div>
+    </a>
+
+    <!-- Variation B -->
+    <a href="floor4-b.html" class="card">
+        <span class="tag blue">VARIANT B</span>
+        <h2>4F — Team Clusters</h2>
+        <div class="desc">Engineering (6-seat tables) / Product (4-seat pods) / Design (2-seat pairs). Cafeteria and WC positions swapped.</div>
+        <div class="pc">
+            <div class="pros">Clear team neighborhoods, strong identity</div>
+            <div class="pros">Cafe closer to desks (swapped with WC)</div>
+            <div class="cons">Teams grow/shrink — rigid zones get awkward</div>
+            <div class="cons">Cross-team collab harder with defined territories</div>
+        </div>
+        <div class="meta">36 desks + 3 standing &middot; cafe/wc swapped</div>
+    </a>
+
+    <!-- Variation C -->
+    <a href="floor4-c.html" class="card">
+        <span class="tag blue">VARIANT C</span>
+        <h2>4F — Open + Breakout</h2>
+        <div class="desc">4 pod rows with generous spacing. Central breakout zone with 2 round tables replacing a desk row. Most spacious feel.</div>
+        <div class="pc">
+            <div class="pros">Most breathing room, least cramped</div>
+            <div class="pros">Breakout in center = natural gathering point</div>
+            <div class="cons">Only 32 desks — tight if you hit 35+ people</div>
+            <div class="cons">Uniform pods, no desk variety</div>
+        </div>
+        <div class="meta">32 desks + 8 breakout + 3 standing</div>
+    </a>
+
+    <!-- 3D -->
+    <a href="3d.html" class="card">
+        <span class="tag">3D</span>
+        <h2>3rd Floor — 3D Walkthrough</h2>
+        <div class="desc">Three.js 3D model of the 3rd floor. Bird's eye, 3/4 view, entry view, and walk mode.</div>
+        <div class="meta">3d.html</div>
+    </a>
+
+</div>
+</div>
+</body>
+</html>

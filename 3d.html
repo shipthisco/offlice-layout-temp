@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Floor 03 — 3D Walkthrough</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#111;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+canvas{display:block}
+#ui{position:fixed;top:16px;left:16px;z-index:10;display:flex;flex-direction:column;gap:8px}
+.btn{padding:8px 16px;border:1px solid rgba(255,255,255,.15);border-radius:6px;background:rgba(20,20,30,.85);color:#e6e2da;font-size:12px;cursor:pointer;backdrop-filter:blur(8px);transition:all .15s;font-family:inherit}
+.btn:hover{background:rgba(40,40,55,.9);border-color:rgba(184,146,58,.4)}
+.btn.active{border-color:#b8923a;color:#b8923a}
+#legend{position:fixed;bottom:16px;left:16px;z-index:10;background:rgba(20,20,30,.85);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px;backdrop-filter:blur(8px)}
+#legend h4{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#9590a0;margin-bottom:8px}
+.lg{display:flex;align-items:center;gap:6px;font-size:11px;color:#e6e2da;padding:2px 0}
+.lc{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+#info{position:fixed;top:16px;right:16px;z-index:10;background:rgba(20,20,30,.85);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px;backdrop-filter:blur(8px);color:#9590a0;font-size:11px;max-width:220px;line-height:1.5}
+#info strong{color:#e6e2da}
+#walk-hint{position:fixed;bottom:16px;right:16px;z-index:10;background:rgba(184,146,58,.15);border:1px solid rgba(184,146,58,.3);border-radius:8px;padding:10px 14px;color:#b8923a;font-size:11px;display:none;backdrop-filter:blur(8px)}
+#loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#111;z-index:100;color:#9590a0;font-size:14px}
+</style>
+</head>
+<body>
+<div id="loading">Loading 3D scene...</div>
+<div id="ui">
+    <button class="btn active" id="b1" onclick="SV('overview',this)">Bird's Eye</button>
+    <button class="btn" id="b2" onclick="SV('perspective',this)">3/4 View</button>
+    <button class="btn" id="b3" onclick="SV('entry',this)">Entry View</button>
+    <button class="btn" id="b4" onclick="SV('walk',this)">Walk Mode</button>
+</div>
+<div id="legend">
+    <h4>Rooms</h4>
+    <div class="lg"><div class="lc" style="background:#a3bfdb"></div>CXO Cabins</div>
+    <div class="lg"><div class="lc" style="background:#b5a8d0"></div>Meeting Rooms</div>
+    <div class="lg"><div class="lc" style="background:#7fb5b0"></div>Conference</div>
+    <div class="lg"><div class="lc" style="background:#97b89c"></div>Pantry</div>
+    <div class="lg"><div class="lc" style="background:#b0aba5"></div>WC</div>
+    <div class="lg"><div class="lc" style="background:#c2a89a"></div>Server/Prayer</div>
+    <div class="lg"><div class="lc" style="background:#d4c090"></div>Collab Zone</div>
+    <div class="lg"><div class="lc" style="background:#8aad8a"></div>Standing Bars</div>
+</div>
+<div id="info"><strong>3D Office Layout</strong><br>13m &times; ~23.5m &bull; L-shaped<br><br>Scroll to zoom &bull; Drag to orbit<br>Use view buttons to navigate.</div>
+<div id="walk-hint">WASD to move &bull; Mouse to look &bull; ESC to exit</div>
+
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+
+document.getElementById('loading').style.display='none';
+
+const W = 13, DM = 20, DER = 5, DEL = 2.5, H = 3.2, WL = 0.15;
+
+/* ---- renderer ---- */
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+document.body.appendChild(renderer.domElement);
+
+/* ---- scene ---- */
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#1c1c26');
+
+/* ---- camera ---- */
+const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 100);
+camera.position.set(6.5, 24, 14);
+
+/* ---- orbit controls ---- */
+const orbit = new OrbitControls(camera, renderer.domElement);
+orbit.target.set(6.5, 0, 11);
+orbit.enableDamping = true;
+orbit.dampingFactor = 0.08;
+orbit.maxPolarAngle = Math.PI / 2.02;
+orbit.minDistance = 2;
+orbit.maxDistance = 45;
+orbit.update();
+
+/* ---- walk controls ---- */
+const plc = new PointerLockControls(camera, document.body);
+let walkMode = false, mF = 0, mB = 0, mL = 0, mR = 0;
+
+/* ---- materials ---- */
+const M = {
+    floor: new THREE.MeshStandardMaterial({ color: 0xe8e0d4, roughness: 0.6, side: THREE.DoubleSide }),
+    wall: new THREE.MeshStandardMaterial({ color: 0xc8c4be, roughness: 0.7 }),
+    ceil: new THREE.MeshStandardMaterial({ color: 0x1a1816, roughness: 0.9, side: THREE.DoubleSide }),
+    pil: new THREE.MeshStandardMaterial({ color: 0x2a2520, roughness: 0.5 }),
+    glass: new THREE.MeshPhysicalMaterial({ color: 0x88bbdd, transparent: true, opacity: 0.2, roughness: 0.05, side: THREE.DoubleSide }),
+    cabin: new THREE.MeshStandardMaterial({ color: 0xc8dae8, roughness: 0.6 }),
+    meet: new THREE.MeshStandardMaterial({ color: 0xc8c0e0, roughness: 0.6 }),
+    conf: new THREE.MeshStandardMaterial({ color: 0xa8d8d0, roughness: 0.6 }),
+    pantry: new THREE.MeshStandardMaterial({ color: 0xb0d0b4, roughness: 0.6 }),
+    wc: new THREE.MeshStandardMaterial({ color: 0xc4c0ba, roughness: 0.6 }),
+    srv: new THREE.MeshStandardMaterial({ color: 0xd4c4b4, roughness: 0.6 }),
+    collab: new THREE.MeshStandardMaterial({ color: 0xe0d4b0, roughness: 0.6 }),
+    stand: new THREE.MeshStandardMaterial({ color: 0xa8c8a8, roughness: 0.6 }),
+    desk: new THREE.MeshStandardMaterial({ color: 0xc4a050, roughness: 0.4 }),
+    chair: new THREE.MeshStandardMaterial({ color: 0x3a3a3a, roughness: 0.6 }),
+    beam: new THREE.MeshStandardMaterial({ color: 0x222018, roughness: 0.8 }),
+    lamp: new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.3 }),
+};
+
+/* ---- helpers ---- */
+function bx(w, h, d, m, x, y, z) {
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m);
+    mesh.position.set(x, y, z);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    scene.add(mesh);
+    return mesh;
+}
+function rf(x1, z1, x2, z2, m) {
+    bx(x2 - x1, 0.03, z2 - z1, m, (x1 + x2) / 2, 0.02, (z1 + z2) / 2);
+}
+function wl(x1, z1, x2, z2, h = H, m = M.wall) {
+    const dx = x2 - x1, dz = z2 - z1, len = Math.sqrt(dx * dx + dz * dz);
+    const mesh = bx(len, h, WL, m, (x1 + x2) / 2, h / 2, (z1 + z2) / 2);
+    mesh.rotation.y = -Math.atan2(dz, dx);
+    return mesh;
+}
+
+/* ======== FLOOR ======== */
+const fs = new THREE.Shape();
+fs.moveTo(0, 0); fs.lineTo(W, 0); fs.lineTo(W, DM + DER);
+fs.lineTo(5, DM + DER); fs.lineTo(5, DM + DEL); fs.lineTo(0, DM + DEL);
+fs.closePath();
+const fg = new THREE.ShapeGeometry(fs);
+const floorMesh = new THREE.Mesh(fg, M.floor);
+floorMesh.rotation.x = -Math.PI / 2;
+floorMesh.receiveShadow = true;
+scene.add(floorMesh);
+
+/* ======== CEILING ======== */
+const ceilMesh = new THREE.Mesh(fg, M.ceil);
+ceilMesh.rotation.x = -Math.PI / 2;
+ceilMesh.position.y = H;
+scene.add(ceilMesh);
+
+/* ======== OUTER WALLS ======== */
+wl(0, 0, W, 0);            // North
+wl(0, 0, 0, DM + DEL);     // West
+wl(W, 0, W, DM + DER);     // East (full height)
+wl(0, DM + DEL, 5, DM + DEL); // SW bottom
+wl(5, DM + DEL, 5, DM + DER); // Step wall
+// South glass
+wl(5, DM + DER, W, DM + DER, H, M.glass);
+// Internal edge (main office to extensions)
+wl(0, DM, 5, DM, 0.4, M.wall);
+
+/* ======== WINDOWS (glass panels in walls) ======== */
+[3.5, 8.2, 13.3].forEach(z => bx(0.03, 1.5, 1.2, M.glass, 0, 1.5, z));
+[2.6, 6.5, 10.6, 14.6, 18.2].forEach(z => bx(0.03, 1.5, 1.2, M.glass, W, 1.5, z));
+
+/* ======== PILLARS ======== */
+const PW = [1.1, 5.9, 11.0, 16.0];
+const PE = [0.5, 4.4, 8.6, 12.4, 15.7, 18.9];
+PW.forEach(z => bx(0.4, H, 0.6, M.pil, 0.5, H / 2, z));
+PE.forEach(z => bx(0.4, H, 0.6, M.pil, W - 0.5, H / 2, z));
+
+/* ======== BEAMS ======== */
+PE.forEach(z => bx(W, 0.3, 0.4, M.beam, W / 2, H - 0.15, z));
+
+/* ======== ROOM FLOORS ======== */
+rf(0, 1.9, 2.7, 3.8, M.cabin);     // CEO W1
+rf(0, 5.9, 2.7, 9.3, M.cabin);     // CBO W2
+rf(0.05, 11.8, 0.5, 15.4, M.stand); // Standing W3
+rf(10.4, 1.4, W, 4.8, M.meet);     // Huddle E1
+rf(10.4, 5.3, W, 8.7, M.cabin);    // CFO E2
+rf(10.4, 9.1, W, 12.0, M.meet);    // Sync E3
+rf(10.4, 12.6, W, 15.5, M.cabin);  // CTO E4
+rf(12.5, 16.1, W, 18.6, M.stand);  // Standing E5
+rf(0.1, 0.1, 1.6, 1.7, M.meet);   // Booth
+rf(1.9, 0.1, 7.9, 2.3, M.collab); // Collab
+rf(8.1, 0.1, 9.9, 1.7, M.meet);   // Focus
+rf(10.0, 0.1, 11.4, 1.5, M.srv);  // Server
+rf(0.1, 20.1, 2.4, 22.3, M.pantry);
+rf(2.7, 20.1, 5.0, 22.3, M.wc);
+rf(7.6, 20.8, W, 24.6, M.conf);
+
+/* ======== ROOM PARTITION WALLS ======== */
+function gw(x1, z1, x2, z2) { wl(x1, z1, x2, z2, H * 0.85, M.glass); }
+function sw(x1, z1, x2, z2) { wl(x1, z1, x2, z2, H * 0.9); }
+
+// West cabins glass fronts + sides
+gw(2.7, 1.9, 2.7, 3.8); sw(0, 1.9, 2.7, 1.9); sw(0, 3.8, 2.7, 3.8); // CEO
+gw(2.7, 5.9, 2.7, 9.3); sw(0, 5.9, 2.7, 5.9); sw(0, 9.3, 2.7, 9.3); // CBO
+
+// East rooms glass fronts + sides
+gw(10.4, 1.4, 10.4, 4.8); sw(W, 1.4, 10.4, 1.4); sw(W, 4.8, 10.4, 4.8); // Huddle
+gw(10.4, 5.3, 10.4, 8.7); sw(W, 5.3, 10.4, 5.3); sw(W, 8.7, 10.4, 8.7); // CFO
+gw(10.4, 9.1, 10.4, 12.0); sw(W, 9.1, 10.4, 9.1); sw(W, 12.0, 10.4, 12.0); // Sync
+gw(10.4, 12.6, 10.4, 15.5); sw(W, 12.6, 10.4, 12.6); sw(W, 15.5, 10.4, 15.5); // CTO
+
+// North rooms
+sw(1.6, 0, 1.6, 1.7); sw(0, 1.7, 1.6, 1.7); // Booth
+sw(7.9, 0, 7.9, 2.3); sw(1.9, 2.3, 7.9, 2.3); // Collab south
+sw(8.1, 1.7, 9.9, 1.7); sw(9.9, 0, 9.9, 1.7); // Focus
+sw(10.0, 0, 10.0, 1.5); sw(11.4, 0, 11.4, 1.5); sw(10.0, 1.5, 11.4, 1.5); // Server
+
+// South
+sw(0, 20.1, 5, 20.1); sw(2.4, 20.1, 2.4, 22.3); sw(5, 20.1, 5, 22.3);
+gw(7.6, 20.8, 7.6, 24.6); sw(7.6, 20.8, W, 20.8);
+
+/* ======== FURNITURE ======== */
+// Desk pods (10 pods, 2 cols x 5 rows)
+[[3.8, 2.5], [7.4, 2.5], [3.8, 6.0], [7.4, 6.0], [3.8, 10.0], [7.4, 10.0],
+ [3.8, 13.5], [7.4, 13.5], [3.8, 16.2], [7.4, 16.2]].forEach(([x, z]) => {
+    [[-0.6, -0.35], [-0.6, 0.35], [0.6, -0.35], [0.6, 0.35]].forEach(([dx, dz]) => {
+        bx(0.8, 0.74, 0.5, M.desk, x + dx, 0.37, z + dz);
+        bx(0.22, 0.42, 0.22, M.chair, x + dx, 0.21, z + dz + (dz > 0 ? 0.55 : -0.55));
+    });
+});
+
+// Standing bars
+bx(0.35, 0.95, 3.0, M.desk, 0.25, 0.475, 13.6);
+bx(0.35, 0.95, 2.2, M.desk, W - 0.25, 0.475, 17.3);
+
+// Conference table
+const ct = new THREE.Mesh(
+    new THREE.CylinderGeometry(1.4, 1.4, 0.06, 24), M.desk
+);
+ct.position.set(10.3, 0.74, 22.7);
+ct.scale.z = 1.3;
+ct.receiveShadow = true;
+scene.add(ct);
+for (let i = 0; i < 10; i++) {
+    const a = Math.PI * 2 * i / 10;
+    bx(0.25, 0.42, 0.25, M.chair, 10.3 + Math.cos(a) * 1.9, 0.21, 22.7 + Math.sin(a) * 2.3);
+}
+
+// Collab sofas
+const sofa = new THREE.MeshStandardMaterial({ color: 0x5a5a64, roughness: 0.8 });
+bx(1.8, 0.45, 0.7, sofa, 3.8, 0.225, 1.7);
+bx(1.8, 0.45, 0.7, sofa, 6.2, 0.225, 1.7);
+
+/* ======== PENDANT LIGHTS ======== */
+function pendant(x, z) {
+    bx(0.01, 0.35, 0.01, M.lamp, x, H - 0.175, z);
+    const shade = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.15, 0.3, 0.12, 12, 1, true),
+        M.lamp
+    );
+    shade.position.set(x, H - 0.38, z);
+    scene.add(shade);
+    const bulb = new THREE.Mesh(
+        new THREE.SphereGeometry(0.05, 8, 8),
+        new THREE.MeshStandardMaterial({ color: 0xffe8c0, emissive: 0xffe0a0, emissiveIntensity: 0.5 })
+    );
+    bulb.position.set(x, H - 0.42, z);
+    scene.add(bulb);
+    const pl = new THREE.PointLight(0xffe0b0, 0.6, 10, 1.5);
+    pl.position.set(x, H - 0.45, z);
+    pl.castShadow = false; // Performance
+    scene.add(pl);
+}
+[3, 6.5, 10].forEach(x => [3, 7, 11, 15, 19].forEach(z => pendant(x, z)));
+pendant(9, 22.5);
+pendant(11.5, 23.5);
+
+/* ======== AMBIENT LIGHTS ======== */
+scene.add(new THREE.HemisphereLight(0xb0c8e0, 0x403830, 0.35));
+const sun = new THREE.DirectionalLight(0xffe8c0, 0.5);
+sun.position.set(6, 10, 28);
+sun.castShadow = true;
+sun.shadow.mapSize.set(1024, 1024);
+sun.shadow.camera.left = -15; sun.shadow.camera.right = 15;
+sun.shadow.camera.top = 30; sun.shadow.camera.bottom = -5;
+scene.add(sun);
+scene.add(new THREE.AmbientLight(0x505060, 0.2));
+
+/* ======== GROUND ======== */
+const gnd = new THREE.Mesh(
+    new THREE.PlaneGeometry(60, 60),
+    new THREE.MeshStandardMaterial({ color: 0x14141a })
+);
+gnd.rotation.x = -Math.PI / 2;
+gnd.position.y = -0.05;
+gnd.receiveShadow = true;
+scene.add(gnd);
+
+/* ======== VIEW CONTROLS ======== */
+function animTo(obj, to, dur = 700) {
+    const from = { x: obj.x, y: obj.y, z: obj.z };
+    const start = performance.now();
+    function tick(now) {
+        const t = Math.min((now - start) / dur, 1);
+        const e = 1 - Math.pow(1 - t, 3);
+        obj.x = from.x + (to.x - from.x) * e;
+        obj.y = from.y + (to.y - from.y) * e;
+        obj.z = from.z + (to.z - from.z) * e;
+        if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+}
+
+window.SV = function (v, btn) {
+    document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    if (walkMode && v !== 'walk') {
+        plc.unlock(); walkMode = false; orbit.enabled = true;
+        document.getElementById('walk-hint').style.display = 'none';
+    }
+    switch (v) {
+        case 'overview':
+            animTo(camera.position, { x: 6.5, y: 24, z: 14 });
+            animTo(orbit.target, { x: 6.5, y: 0, z: 11 });
+            break;
+        case 'perspective':
+            animTo(camera.position, { x: -5, y: 14, z: 26 });
+            animTo(orbit.target, { x: 6.5, y: 0, z: 10 });
+            break;
+        case 'entry':
+            animTo(camera.position, { x: 8, y: 1.65, z: 24.5 });
+            animTo(orbit.target, { x: 6.5, y: 1.2, z: 12 });
+            break;
+        case 'walk':
+            camera.position.set(8, 1.65, 24);
+            camera.lookAt(6.5, 1.5, 10);
+            orbit.enabled = false;
+            walkMode = true;
+            plc.lock();
+            document.getElementById('walk-hint').style.display = 'block';
+            break;
+    }
+};
+
+/* ======== WALK MODE ======== */
+document.addEventListener('keydown', e => {
+    if (!walkMode) return;
+    if (e.code === 'KeyW') mF = 1; if (e.code === 'KeyS') mB = 1;
+    if (e.code === 'KeyA') mL = 1; if (e.code === 'KeyD') mR = 1;
+});
+document.addEventListener('keyup', e => {
+    if (e.code === 'KeyW') mF = 0; if (e.code === 'KeyS') mB = 0;
+    if (e.code === 'KeyA') mL = 0; if (e.code === 'KeyD') mR = 0;
+});
+plc.addEventListener('unlock', () => {
+    if (walkMode) {
+        walkMode = false; orbit.enabled = true;
+        document.getElementById('walk-hint').style.display = 'none';
+        document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('b1').classList.add('active');
+    }
+});
+
+/* ======== RESIZE ======== */
+addEventListener('resize', () => {
+    camera.aspect = innerWidth / innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth, innerHeight);
+});
+
+/* ======== RENDER LOOP ======== */
+const clock = new THREE.Clock();
+function animate() {
+    requestAnimationFrame(animate);
+    if (walkMode) {
+        const dt = Math.min(clock.getDelta(), 0.05);
+        const speed = 5 * dt;
+        const dir = new THREE.Vector3();
+        camera.getWorldDirection(dir);
+        dir.y = 0; dir.normalize();
+        const right = new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0), dir).normalize();
+        if (mF) camera.position.addScaledVector(dir, speed);
+        if (mB) camera.position.addScaledVector(dir, -speed);
+        if (mL) camera.position.addScaledVector(right, speed);
+        if (mR) camera.position.addScaledVector(right, -speed);
+        camera.position.y = 1.65;
+        camera.position.x = Math.max(0.4, Math.min(W - 0.4, camera.position.x));
+        camera.position.z = Math.max(0.4, Math.min(DM + DER - 0.4, camera.position.z));
+    } else {
+        orbit.update();
+    }
+    renderer.render(scene, camera);
+}
+clock.getDelta();
+animate();
+
+console.log('3D scene loaded successfully');
+</script>
+</body>
+</html>
