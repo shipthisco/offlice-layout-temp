@@ -345,6 +345,26 @@ header h1{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;ba
     <text x="228" y="594" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="3.5" fill="var(--collab)" opacity=".5">informal &middot; 8 seats</text>
 </g>
 
+<!-- ===== PULL-UP BAR / CHALLENGE ZONE (pocket east of breakout) ===== -->
+<g class="rg" data-room="challenge">
+    <rect class="rb" x="342" y="530" width="52" height="66" rx="3" fill="#faf0e0" stroke="#c07830" stroke-width=".8"/>
+    <!-- Rubber mat -->
+    <rect x="348" y="548" width="40" height="38" rx="2" fill="#c07830" opacity=".06" stroke="#c07830" stroke-width=".3"/>
+    <!-- Pull-up bar frame (two uprights + crossbar) -->
+    <line x1="356" y1="542" x2="356" y2="578" stroke="#c07830" stroke-width="1.8" opacity=".25"/>
+    <line x1="380" y1="542" x2="380" y2="578" stroke="#c07830" stroke-width="1.8" opacity=".25"/>
+    <line x1="354" y1="542" x2="382" y2="542" stroke="#c07830" stroke-width="2.2" opacity=".4" stroke-linecap="round"/>
+    <!-- Grip marks on bar -->
+    <line x1="362" y1="541" x2="362" y2="543" stroke="#c07830" stroke-width=".6" opacity=".3"/>
+    <line x1="368" y1="541" x2="368" y2="543" stroke="#c07830" stroke-width=".6" opacity=".3"/>
+    <line x1="374" y1="541" x2="374" y2="543" stroke="#c07830" stroke-width=".6" opacity=".3"/>
+    <!-- Mini kettlebell icon -->
+    <circle cx="362" cy="574" r="3.5" fill="#c07830" opacity=".08" stroke="#c07830" stroke-width=".4"/>
+    <rect x="360" y="569" width="4" height="3" rx="1" fill="#c07830" opacity=".12"/>
+    <text x="368" y="538" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4.5" font-weight="700" fill="var(--wall)" opacity=".5">CHALLENGE</text>
+    <text x="368" y="592" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="3" fill="#c07830" opacity=".6">pull-up bar &middot; stretch</text>
+</g>
+
 <!-- ===== WC (SWAPPED — left, near stairs) ===== -->
 <g class="rg" data-room="wc">
     <rect class="rb" x="52" y="614" width="64" height="60" rx="2" fill="var(--wc-f)" stroke="var(--wc)" stroke-width="1.2"/>
@@ -495,6 +515,7 @@ header h1{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;ba
     <div class="li"><div class="sw" style="background:var(--stand-f);border:1.5px solid var(--stand)"></div>Standing Desk Bars</div>
     <div class="li"><div class="sw" style="background:var(--store-f);border:1.5px solid var(--store)"></div>Built-in Storage</div>
     <div class="li"><div class="sw" style="background:var(--desk-f);border:1.5px solid var(--desk)"></div>Desk Pods (&times;4)</div>
+    <div class="li"><div class="sw" style="background:#faf0e0;border:1.5px solid #c07830"></div>Challenge Zone</div>
     <div class="li"><div class="sw" style="background:var(--collab-f);border:1px dashed var(--collab)"></div>Collab / Whiteboard</div>
 </div>
 <div class="cd">
@@ -555,6 +576,7 @@ breakout:{n:'Breakout Zone',t:'Center \u00b7 8 informal seats',i:'<strong>2 roun
 standing:{n:'Standing Desk Bar',t:'E4 + E5 + W3 \u00b7 8 spots',i:'<strong>Window-facing counters</strong> in pillar bay recesses. Natural light. Great for quick tasks, calls, or posture breaks.'},
 storage:{n:'Built-in Storage',t:'Cupboards at pillar gaps',i:'<strong>1ft gap between each pillar and wall</strong> is used for built-in cupboards. Coats, personal lockers, file storage. Uses dead space \u2014 <strong>zero floor area impact.</strong>'},
 ws:{n:'Mixed Workspace',t:'~1,400 sq ft \u00b7 48 desks',i:'<strong>3 zones:</strong> Focus (north, solo + pair desks for deep work), Team Pods (center, standard 4-seat clusters for daily collab), Active (south, pairs near entry + breakout). Pick your zone based on what you need today.'},
+challenge:{n:'Challenge Zone',t:'East of Breakout \u00b7 ~30 sq ft',i:'<strong>Mini pull-up bar station.</strong> Doorframe-style pull-up bar + rubber mat for stretching. A tiny energy break between meetings. No gym \u2014 just a quick 30-second challenge to get the blood flowing. Kettlebell optional.'},
 collab:{n:'Collaboration Zone',t:'North Wall \u00b7 ~250 sq ft',i:'<strong>Full-width whiteboard wall</strong> \u2014 the main visual feature when you enter. Spans nearly the entire north wall (no windows = perfect whiteboard surface). 3 lounge sofas for brainstorming, standups, and ideation. The first impression of the office.'}
 };
 const tip=document.getElementById('tip'),dp=document.getElementById('dp'),dc=document.getElementById('dc'),dn=document.getElementById('dn'),dt=document.getElementById('dt'),di=document.getElementById('di');
