@@ -140,20 +140,21 @@ header h1{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;ba
     <text x="80" y="594" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="3.5" fill="var(--store)">supplies</text>
 </g>
 
-<!-- ===== WEST WALL: CEO(W1) → Huddle(W2) → CBO(W3) ===== -->
+<!-- ===== WEST WALL: CXO/Meet(W1) → Huddle(W2) → CXO/Meet(W3) ===== -->
 
-<!-- CEO Cabin — W Bay 1 -->
-<g class="rg" data-room="ceo">
+<!-- CXO / Meeting Room — W Bay 1 -->
+<g class="rg" data-room="cxomeet">
     <rect class="rb" x="52" y="102" width="74" height="86" rx="2" fill="var(--cab-f)" stroke="var(--cab)" stroke-width="1.2"/>
     <rect x="56" y="106" width="20" height="8" rx="1" fill="var(--cab)" opacity=".2"/>
     <rect x="56" y="114" width="8" height="12" rx="1" fill="var(--cab)" opacity=".2"/>
     <circle cx="96" cy="140" r="3.5" fill="var(--cab)" opacity=".08"/>
     <circle cx="110" cy="140" r="3.5" fill="var(--cab)" opacity=".08"/>
-    <text x="89" y="152" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">CEO</text>
-    <text x="89" y="164" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--cab)">W bay 1 &#9740;</text>
+    <text x="89" y="148" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">CXO /</text>
+    <text x="89" y="160" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">MEET</text>
+    <text x="89" y="172" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--cab)">W bay 1 &#9740;</text>
 </g>
 
-<!-- Huddle Room — W Bay 2 (between CEO and CBO, shared anchor) -->
+<!-- Huddle Room — W Bay 2 (between CXO rooms, shared anchor) -->
 <g class="rg" data-room="huddle">
     <rect class="rb" x="52" y="216" width="74" height="96" rx="2" fill="var(--call-f)" stroke="var(--call)" stroke-width="1.2"/>
     <rect x="56" y="248" width="40" height="16" rx="3" fill="var(--call)" opacity=".08" stroke="var(--call)" stroke-width=".3"/>
@@ -166,37 +167,39 @@ header h1{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;ba
     <text x="89" y="300" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--call)">2-3p &middot; W2 &#9740;</text>
 </g>
 
-<!-- CBO Cabin — W Bay 3 (same size as all CXO cabins: h=86) -->
-<g class="rg" data-room="cbo">
+<!-- CXO / Meeting Room — W Bay 3 -->
+<g class="rg" data-room="cxomeet">
     <rect class="rb" x="52" y="360" width="74" height="86" rx="2" fill="var(--cab-f)" stroke="var(--cab)" stroke-width="1.2"/>
     <rect x="56" y="364" width="20" height="8" rx="1" fill="var(--cab)" opacity=".2"/>
     <rect x="56" y="372" width="8" height="12" rx="1" fill="var(--cab)" opacity=".2"/>
     <circle cx="96" cy="400" r="3.5" fill="var(--cab)" opacity=".08"/>
     <circle cx="110" cy="400" r="3.5" fill="var(--cab)" opacity=".08"/>
-    <text x="89" y="410" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">CBO</text>
-    <text x="89" y="424" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--cab)">W bay 3 &#9740;</text>
+    <text x="89" y="406" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">CXO /</text>
+    <text x="89" y="418" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">MEET</text>
+    <text x="89" y="430" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--cab)">W bay 3 &#9740;</text>
 </g>
 
-<!-- W Bay 3 remaining — Standing Counter (fills gap below CBO to W4 pillar) -->
+<!-- W Bay 3 remaining — Standing Counter (fills gap below CXO/Meet to W4 pillar) -->
 <g class="rg" data-room="standing">
     <rect class="rb" x="52" y="450" width="14" height="34" rx="1" fill="var(--stand-f)" stroke="var(--stand)" stroke-width=".7"/>
     <text x="59" y="470" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="3" fill="var(--stand)" transform="rotate(-90,59,470)">stand 2</text>
 </g>
 
-<!-- ===== EAST WALL: CTO(E1) → Sync(E2) → CFO(E3) → Booth(E4) → Standing(E5) ===== -->
+<!-- ===== EAST WALL: CXO/Meet(E1) → Sync(E2) → CXO/Meet(E3) → Booth(E4) → Standing(E5) ===== -->
 
-<!-- CTO Cabin — E Bay 1 (same size as all CXO cabins: h=86) -->
-<g class="rg" data-room="cto">
+<!-- CXO / Meeting Room — E Bay 1 -->
+<g class="rg" data-room="cxomeet">
     <rect class="rb" x="340" y="88" width="72" height="86" rx="2" fill="var(--cab-f)" stroke="var(--cab)" stroke-width="1.2"/>
     <rect x="379" y="92" width="20" height="8" rx="1" fill="var(--cab)" opacity=".2"/>
     <rect x="391" y="100" width="8" height="12" rx="1" fill="var(--cab)" opacity=".2"/>
     <circle cx="356" cy="130" r="3.5" fill="var(--cab)" opacity=".08"/>
     <circle cx="370" cy="130" r="3.5" fill="var(--cab)" opacity=".08"/>
-    <text x="376" y="128" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">CTO</text>
+    <text x="376" y="124" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">CXO /</text>
+    <text x="376" y="136" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">MEET</text>
     <text x="376" y="160" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--cab)">E bay 1 &#9740;</text>
 </g>
 
-<!-- Sync Room — E Bay 2 (between CTO and CFO, shared anchor) -->
+<!-- Sync Room — E Bay 2 (between CXO rooms, shared anchor) -->
 <g class="rg" data-room="sync">
     <rect class="rb" x="340" y="198" width="72" height="86" rx="2" fill="var(--call-f)" stroke="var(--call)" stroke-width="1.2"/>
     <rect x="356" y="228" width="38" height="14" rx="3" fill="var(--call)" opacity=".08" stroke="var(--call)" stroke-width=".3"/>
@@ -209,14 +212,15 @@ header h1{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;ba
     <text x="376" y="274" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--call)">3-4p &middot; E2 &#9740;</text>
 </g>
 
-<!-- CFO Cabin — E Bay 3 (same size as all CXO cabins: h=86) -->
-<g class="rg" data-room="cfo">
+<!-- CXO / Meeting Room — E Bay 3 -->
+<g class="rg" data-room="cxomeet">
     <rect class="rb" x="340" y="306" width="72" height="86" rx="2" fill="var(--cab-f)" stroke="var(--cab)" stroke-width="1.2"/>
     <rect x="379" y="310" width="20" height="8" rx="1" fill="var(--cab)" opacity=".2"/>
     <rect x="391" y="318" width="8" height="12" rx="1" fill="var(--cab)" opacity=".2"/>
     <circle cx="356" cy="352" r="3.5" fill="var(--cab)" opacity=".08"/>
     <circle cx="370" cy="352" r="3.5" fill="var(--cab)" opacity=".08"/>
-    <text x="376" y="350" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">CFO</text>
+    <text x="376" y="346" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">CXO /</text>
+    <text x="376" y="358" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7.5" font-weight="700" fill="var(--wall)">MEET</text>
     <text x="376" y="378" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4" fill="var(--cab)">E bay 3 &#9740;</text>
 </g>
 
@@ -349,6 +353,22 @@ header h1{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;ba
     <circle cx="228" cy="540" r="6" fill="none" stroke="#4BAED9" stroke-width=".5" opacity=".2"/>
     <text x="228" y="534" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="5" font-weight="600" fill="#203A7B" opacity=".4">BREAKOUT</text>
     <text x="228" y="590" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="3.5" fill="#1C65A7" opacity=".4">shipthis blue &middot; red chairs &middot; 8 seats</text>
+</g>
+
+<!-- ===== PULL-UP BAR / CHALLENGE ZONE (pocket east of breakout) ===== -->
+<g class="rg" data-room="challenge">
+    <rect class="rb" x="342" y="530" width="52" height="66" rx="3" fill="#faf0e0" stroke="#c07830" stroke-width=".8"/>
+    <rect x="348" y="548" width="40" height="38" rx="2" fill="#c07830" opacity=".06" stroke="#c07830" stroke-width=".3"/>
+    <line x1="356" y1="542" x2="356" y2="578" stroke="#c07830" stroke-width="1.8" opacity=".25"/>
+    <line x1="380" y1="542" x2="380" y2="578" stroke="#c07830" stroke-width="1.8" opacity=".25"/>
+    <line x1="354" y1="542" x2="382" y2="542" stroke="#c07830" stroke-width="2.2" opacity=".4" stroke-linecap="round"/>
+    <line x1="362" y1="541" x2="362" y2="543" stroke="#c07830" stroke-width=".6" opacity=".3"/>
+    <line x1="368" y1="541" x2="368" y2="543" stroke="#c07830" stroke-width=".6" opacity=".3"/>
+    <line x1="374" y1="541" x2="374" y2="543" stroke="#c07830" stroke-width=".6" opacity=".3"/>
+    <circle cx="362" cy="574" r="3.5" fill="#c07830" opacity=".08" stroke="#c07830" stroke-width=".4"/>
+    <rect x="360" y="569" width="4" height="3" rx="1" fill="#c07830" opacity=".12"/>
+    <text x="368" y="538" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="4.5" font-weight="700" fill="var(--wall)" opacity=".5">CHALLENGE</text>
+    <text x="368" y="592" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="3" fill="#c07830" opacity=".6">pull-up bar &middot; stretch</text>
 </g>
 
 <!-- ===== WC (SWAPPED — left, near stairs) ===== -->
@@ -518,7 +538,7 @@ header h1{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;ba
 <aside class="sb">
 <div class="cd">
     <h3>Legend</h3>
-    <div class="li"><div class="sw" style="background:var(--cab-f);border:1.5px solid var(--cab)"></div>CXO Cabins (pillar bays)</div>
+    <div class="li"><div class="sw" style="background:var(--cab-f);border:1.5px solid var(--cab)"></div>CXO / Meeting Room</div>
     <div class="li"><div class="sw" style="background:var(--call-f);border:1.5px solid var(--call)"></div>Call / Huddle Rooms</div>
     <div class="li"><div class="sw" style="background:var(--conf-f);border:1.5px solid var(--conf)"></div>Conference (glass corner)</div>
     <div class="li"><div class="sw" style="background:var(--cafe-f);border:1.5px solid var(--cafe)"></div>Cafeteria</div>
@@ -528,6 +548,7 @@ header h1{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;ba
     <div class="li"><div class="sw" style="background:var(--store-f);border:1.5px solid var(--store)"></div>Built-in Storage</div>
     <div class="li"><div class="sw" style="background:var(--desk-f);border:1.5px solid var(--desk)"></div>Desk Pods (&times;4)</div>
     <div class="li"><div class="sw" style="background:var(--collab-f);border:1px dashed var(--collab)"></div>Collab / Whiteboard</div>
+    <div class="li"><div class="sw" style="background:#faf0e0;border:1.5px solid #c07830"></div>Challenge Zone</div>
 </div>
 <div class="cd">
     <h3>Capacity</h3>
@@ -545,12 +566,12 @@ header h1{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;ba
 </div>
 <div class="cd">
     <h3>Pillar Bay Uses</h3>
-    <div class="sr2"><span class="sl">W1</span><span class="sv">CEO &#9740;</span></div>
+    <div class="sr2"><span class="sl">W1</span><span class="sv">CXO / Meet (2-3p)</span></div>
     <div class="sr2"><span class="sl">W2</span><span class="sv">Huddle (2-3p)</span></div>
-    <div class="sr2"><span class="sl">W3</span><span class="sv">CBO &#9740;</span></div>
-    <div class="sr2"><span class="sl">E1</span><span class="sv">CTO &#9740;</span></div>
+    <div class="sr2"><span class="sl">W3</span><span class="sv">CXO / Meet (2-3p)</span></div>
+    <div class="sr2"><span class="sl">E1</span><span class="sv">CXO / Meet (2-3p)</span></div>
     <div class="sr2"><span class="sl">E2</span><span class="sv">Sync (3-4p)</span></div>
-    <div class="sr2"><span class="sl">E3</span><span class="sv">CFO &#9740;</span></div>
+    <div class="sr2"><span class="sl">E3</span><span class="sv">CXO / Meet (2-3p)</span></div>
     <div class="sr2"><span class="sl">E4</span><span class="sv">Standing Bar (3)</span></div>
     <div class="sr2"><span class="sl">E5</span><span class="sv">Standing Bar (3)</span></div>
     <div class="sr2"><span class="sl">Gaps</span><span class="sv">Built-in cupboards</span></div>
@@ -570,13 +591,11 @@ header h1{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;ba
 <div class="tip" id="tip"></div>
 <script>
 const D={
-ceo:{n:'CEO Cabin',t:'W Bay 1 \u00b7 ~100 sq ft',i:'<strong>Pillar bay cabin.</strong> Structural pillars serve as side walls. Glass front facing the workspace. <strong>Window with natural light.</strong> Leaders visible + accessible, not isolated behind a wall.'},
-cbo:{n:'CBO Cabin',t:'W Bay 3 \u00b7 ~100 sq ft',i:'<strong>Pillar bay cabin.</strong> West wall, south end. Window. Glass front. Huddle room (W2) right next door for quick client calls. Near the active zone.'},
-cfo:{n:'CFO Cabin',t:'E Bay 3 \u00b7 ~80 sq ft',i:'<strong>Pillar bay cabin.</strong> East wall, center. Window. Glass front. Sync room (E2) adjacent above, Phone Booth (E4) below \u2014 meeting rooms on both sides.'},
-cto:{n:'CTO Cabin',t:'E Bay 1 \u00b7 ~78 sq ft',i:'<strong>Pillar bay cabin.</strong> East wall, north end. Window. Glass front facing engineering desks. In the quiet zone \u2014 close to the tech team. Sync room next door.'},
-booth:{n:'Phone Booth',t:'E Bay 4 \u00b7 ~80 sq ft',i:'<strong>1-person call pod</strong> in east pillar bay. Window. Near the active/entry zone. Quick solo calls or private conversations. Between CFO cabin and standing bar.'},
-huddle:{n:'Huddle Room',t:'W Bay 2 \u00b7 ~96 sq ft',i:'<strong>2\u20133 person meeting room.</strong> West wall, between CEO (W1) and CBO (W3). The shared anchor that connects both halves of the west wall. Window. Display + table + chairs.'},
-sync:{n:'Sync Room',t:'E Bay 2 \u00b7 ~86 sq ft',i:'<strong>3\u20134 person meeting room.</strong> East wall, between CTO (E1) and CFO (E3). Connects the north and south halves. Window. Table + 4 chairs + display. Sprint syncs, client calls.'},
+cxomeet:{n:'CXO / Meeting Room',t:'Pillar Bays \u00b7 ~80\u2013100 sq ft',i:'<strong>Shared CXO + meeting room.</strong> Not assigned to anyone \u2014 any exec, lead, or team can book it. Glass front, window with natural light. Use for private calls, 1:1s, client meetings, or focused work. 4 rooms across W1, W3, E1, E3.'},
+challenge:{n:'Challenge Zone',t:'East of Breakout \u00b7 ~30 sq ft',i:'<strong>Mini pull-up bar station.</strong> Doorframe-style pull-up bar + rubber mat for stretching. A tiny energy break between meetings. No gym \u2014 just a quick 30-second challenge to get the blood flowing. Kettlebell optional.'},
+booth:{n:'Phone Booth',t:'E Bay 4 \u00b7 ~80 sq ft',i:'<strong>1-person call pod</strong> in east pillar bay. Window. Near the active/entry zone. Quick solo calls or private conversations. Between CXO/Meet room and standing bar.'},
+huddle:{n:'Huddle Room',t:'W Bay 2 \u00b7 ~96 sq ft',i:'<strong>2\u20133 person meeting room.</strong> West wall, between CXO/Meet rooms (W1) and (W3). The shared anchor that connects both halves of the west wall. Window. Display + table + chairs.'},
+sync:{n:'Sync Room',t:'E Bay 2 \u00b7 ~86 sq ft',i:'<strong>3\u20134 person meeting room.</strong> East wall, between CXO/Meet rooms (E1) and (E3). Connects the north and south halves. Window. Table + 4 chairs + display. Sprint syncs, client calls.'},
 conf:{n:'Conference Room',t:'Glass Corner \u00b7 ~250 sq ft',i:'<strong>SE extension with glass facade.</strong> 10-seat oval table with <strong>wall-mounted AV display</strong>. Clients walk in from entry and go <strong>straight here</strong> without crossing the workspace. Premium natural light. Best room in the office.'},
 cafeteria:{n:'Cafeteria',t:'SW Area \u00b7 ~80 sq ft',i:'<strong>Coffee machine, microwave, counter, small fridge + printer.</strong> For coffee, chai, and snacks. Small printer/copier merged in \u2014 minimal printing needs. Existing room near stairs. Adjacent to WC.'},
 wc:{n:'Washrooms',t:'SW Area \u00b7 2 stalls',i:'<strong>Existing structure</strong> behind lift shaft. 2 gender-neutral stalls. Adjacent to cafeteria. Near lift/stairs.'},
